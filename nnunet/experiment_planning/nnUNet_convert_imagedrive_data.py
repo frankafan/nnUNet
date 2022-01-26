@@ -11,9 +11,15 @@ def crawl_and_format_data_directory(folder, taskId, taskName):
             if file.endswith('.nii.gz'):
                 taskFolderName = 'Task' + "{0:03}".format(taskId) + '_' + taskName
                 if '_PT' in file:
-                    os.replace(os.path.join(root, file), os.path.join(os.path.join(nnUNet_raw_data, os.path.join(taskFolderName, 'imagesTr')), file.replace('_PT', '').replace('.nii.gz', '_0000.nii.gz')))
+                    fileDir = os.path.join(nnUNet_raw_data, os.path.join(taskFolderName, 'imagesTr'))
+                    if not os.path.exists(fileDir):
+                        os.makedirs(fileDir)
+                    os.replace(os.path.join(root, file), os.path.join(fileDir, file.replace('_PT', '').replace('.nii.gz', '_0000.nii.gz')))
                 elif '_RTSTRUCT' in file:
-                    os.replace(os.path.join(root, file), os.path.join(os.path.join(nnUNet_raw_data, os.path.join(taskFolderName, 'labelsTr')), file.replace('_PT', '')))
+                    fileDir = os.path.join(nnUNet_raw_data, os.path.join(taskFolderName, 'labelsTr'))
+                    if not os.path.exists(fileDir):
+                        os.makedirs(fileDir)
+                    os.replace(os.path.join(root, file), os.path.join(fileDir, file.replace('_RTSTRUCT', '')))
             
 
 def main():
