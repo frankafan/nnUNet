@@ -50,7 +50,7 @@ def main():
     crawl_and_format_data_directory(args.i, args.t, args.n)
     taskFolderPath = os.path.join(
         nnUNet_raw_data, generate_task_folder_name(args.t, args.n))
-    generate_dataset_json(taskFolderPath, os.path.join(taskFolderPath, 'imagesTr'), os.path.join(taskFolderPath, 'imagesTs'), ('PT'),
+    generate_dataset_json(os.path.join(taskFolderPath, 'dataset.json'), os.path.join(taskFolderPath, 'imagesTr'), os.path.join(taskFolderPath, 'imagesTs'), ('PT'),
                           labels={0: 'background', 1: 'label'}, dataset_name=generate_task_folder_name(args.t, args.n))
 
 
