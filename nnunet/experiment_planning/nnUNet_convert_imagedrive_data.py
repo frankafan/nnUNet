@@ -1,16 +1,25 @@
 from batchgenerators.utilities.file_and_folder_operations import *
 from nnunet.utilities.file_endings import remove_trailing_slash
 from nnunet.paths import nnUNet_raw_data
+from nnunet.dataset_conversion.utils import generate_dataset_json
+
+
+def generate_task_folder_name(taskId, taskName):
+    return 'Task' + "{0:03}".format(taskId) + '_' + taskName
 
 
 def crawl_and_format_data_directory(folder, taskId, taskName):
     folder = remove_trailing_slash(folder)
+    taskFolderName = generate_task_folder_name(taskId, taskName)
+
+    if not os.path.exists(os.path.join(
+            nnUNet_raw_data, os.path.join(taskFolderName, 'imagesTs'))):
+        os.makedirs(os.path.join(
+            nnUNet_raw_data, os.path.join(taskFolderName, 'imagesTs')))
 
     for root, dirs, files in os.walk(folder):
         for file in files:
             if file.endswith('.nii.gz'):
-                taskFolderName = 'Task' + \
-                    "{0:03}".format(taskId) + '_' + taskName
                 if '_PT' in file:
                     fileDir = os.path.join(
                         nnUNet_raw_data, os.path.join(taskFolderName, 'imagesTr'))
@@ -39,6 +48,10 @@ def main():
     args = parser.parse_args()
 
     crawl_and_format_data_directory(args.i, args.t, args.n)
+    taskFolderPath = os.path.join(
+        nnUNet_raw_data, generate_task_folder_name(args.t, args.n))
+    generate_dataset_json(taskFolderPath, os.path.join(taskFolderPath, 'imagesTr'), os.path.join(taskFolderPath, 'imagesTs'), ('PT'),
+                          labels={0: 'background', 1: 'label'}, dataset_name=generate_task_folder_name(args.t, args.n))
 
 
 if __name__ == "__main__":
