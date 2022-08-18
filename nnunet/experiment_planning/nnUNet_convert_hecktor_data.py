@@ -36,7 +36,7 @@ def crawl_and_format_data_directory(training_folder, testing_folder, taskId, tas
                     os.replace(os.path.join(root, file), os.path.join(
                         fileDir, newFileName + '.nii.gz'))
 
-    for root, dirs, files in os.walk(training_folder):
+    for root, dirs, files in os.walk(testing_folder):
         for file in files:
             if file.endswith('.nii.gz'):
                 if '_PET' in file:
