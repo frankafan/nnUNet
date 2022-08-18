@@ -29,6 +29,7 @@ setup(name='nnunet',
           'console_scripts': [
               'nnUNet_convert_decathlon_task = nnunet.experiment_planning.nnUNet_convert_decathlon_task:main',
               'nnUNet_convert_imagedrive_data = nnunet.experiment_planning.nnUNet_convert_imagedrive_data:main',
+              'nnUNet_convert_hecktor_data = nnunet.experiment_planning.nnUNet_convert_hecktor_data:main',
               'nnUNet_plan_and_preprocess = nnunet.experiment_planning.nnUNet_plan_and_preprocess:main',
               'nnUNet_train = nnunet.run.run_training:main',
               'nnUNet_train_DP = nnunet.run.run_training_DP:main',
